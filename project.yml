@@ -1,0 +1,50 @@
+---
+- hosts: all
+  user: root
+  become: yes
+  tasks:
+    - name: git installation
+      yum:
+        name: git
+        state: present
+      tags: git install
+    - name: maven installation
+      yum:
+        name: maven
+        state: present
+      tags: maven install
+    - name: download tomcat
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.82/bin/apache-tomcat-9.0.82.tar.gz
+        dest: /root/apache-tomcat-9.0.82
+      tags: download
+    - name: extract file
+      unarchive:
+        src: /root/apache-tomcat-9.0.82
+        dest: /root/
+        remote_src: yes
+      tags: extract
+    - name: clone a github repository
+      git:
+        repo: https://github.com/jai3242/softwaremakers.git
+        dest: /root/softwaremakers
+        clone: yes
+        update: yes
+      tags: clone repo
+    - name: maven build
+      command: mvn -f /root/softwaremakers clean package
+      tags: build
+    - name: Start Tomcat
+      shell: nohup /root/apache-tomcat-9.0.82/bin/startup.sh
+      tags: start
+    - name: deploy
+      copy:
+        src: /root/softwaremakers/target/softwaremaker.war
+        dest: /root/apache-tomcat-9.0.82/webapps
+        remote_src: yes
+      tags: deploy
+
+            
+
+
+
