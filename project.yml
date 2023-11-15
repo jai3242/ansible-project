@@ -16,11 +16,11 @@
     - name: download tomcat
       get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.82/bin/apache-tomcat-9.0.82.tar.gz
-        dest: /root/apache-tomcat-9.0.82
+        dest: /root/apache-tomcat-9.0.82.tar.gz
       tags: download
     - name: extract file
       unarchive:
-        src: /root/apache-tomcat-9.0.82
+        src: /root/apache-tomcat-9.0.82.tar.gz
         dest: /root/
         remote_src: yes
       tags: extract
