@@ -1,0 +1,9 @@
+---
+- hosts: all
+  user: root
+  become: yes
+  tasks:
+    - name: create a file
+      file:
+        path: /root/test.txt
+        state: touch 
