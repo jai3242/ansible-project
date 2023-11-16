@@ -1,9 +1,0 @@
----
-- hosts: all
-  user: root
-  become: yes
-  tasks:
-    - name: maven build
-      ansible.builtin.command:
-        cmd: mvn clean package
-        chdir: /root/petshop/
